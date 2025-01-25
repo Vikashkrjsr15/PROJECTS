@@ -1,0 +1,181 @@
+/* Base Styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2 {
+  font-weight: bold;
+  color: #333;
+}
+
+p {
+  color: #555;
+}
+
+/* Header */
+.header {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand img {
+  max-height: 50px;
+}
+
+.navbar-nav .nav-item {
+  margin: 0 10px;
+}
+
+.navbar-nav .nav-name {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.navbar-nav .nav-link {
+  font-size: 0.95rem;
+}
+
+.nav-vl {
+  width: 2px;
+  height: 25px;
+  background-color: #ccc;
+  margin: auto 15px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  background-color: #e9ecef;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+}
+
+.breadcrumb-item a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.breadcrumb-item.active {
+  color: #555;
+}
+
+/* Profile Section */
+.my-profile {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.profile-img-container .profile-img {
+  font-size: 8rem;
+  background: #007bff;
+  color: #fff;
+  padding: 1.5rem;
+  border-radius: 50%;
+}
+
+.my-profile h2 {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.my-profile p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+.my-profile .btn {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+/* Interested Properties Section */
+.my-interested-properties {
+  padding: 2rem 0;
+}
+
+.property-card {
+  background: #fff;
+  margin-bottom: 1.5rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.property-card .image-container img {
+  width: 100%;
+  height: auto;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.property-card .content-container {
+  padding: 1rem;
+}
+
+.property-card h2 {
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.property-card p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.property-card .btn {
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+}
+
+/* Footer */
+.footer {
+  background-color: #343a40;
+  color: #fff;
+  padding: 1.5rem 0;
+}
+
+.footer-cities .footer-city a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-right: 1rem;
+}
+
+.footer-copyright {
+  text-align: center;
+  font-size: 0.85rem;
+  margin-top: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-img-container .profile-img {
+    font-size: 6rem;
+  }
+
+  .property-card {
+    flex-direction: column;
+  }
+
+  .property-card .image-container img {
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+
+  .navbar-nav .nav-name {
+    font-size: 0.85rem;
+  }
+
+  .my-profile h2 {
+    font-size: 1.25rem;
+  }
+
+  .property-card h2 {
+    font-size: 1.1rem;
+  }
+}

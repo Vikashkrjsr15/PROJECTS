@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="PG Life Dashboard for managing profile and property interests." />
+    <title>Dashboard | PG Life</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome Icons -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <link href="css/common.css" rel="stylesheet" />
+    <link href="css/dashboard.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Header Section -->
+    <header class="header sticky-top">
+      <nav class="navbar navbar-expand-md navbar-light bg-white">
+        <div class="container">
+          <a class="navbar-brand" href="index.html">
+            <img src="img/logo.png" alt="PG Life Logo" />
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#my-navbar"
+            aria-controls="my-navbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div
+            class="collapse navbar-collapse justify-content-end"
+            id="my-navbar"
+          >
+            <ul class="navbar-nav align-items-center">
+              <li class="nav-item">
+                <span class="nav-name text-black me-3">Hi, Vikash Kumar</span>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-primary" href="dashboard.html">
+                  <i class="fas fa-user"></i> Dashboard
+                </a>
+              </li>
+              <div class="nav-vl"></div>
+              <li class="nav-item">
+                <a class="nav-link text-danger" href="#">
+                  <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="bg-light py-2">
+      <div class="container">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+            <a href="index.html">Home</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+        </ol>
+      </div>
+    </nav>
+
+    <!-- My Profile Section -->
+    <section class="my-profile page-container container mt-4">
+      <h1 class="text-center">My Profile</h1>
+      <div class="row align-items-center">
+        <div class="col-md-4 profile-img-container text-center mb-3 mb-md-0">
+          <!-- Enlarged Profile Icon -->
+          <i class="fas fa-user profile-img display-1 bg-primary text-white p-5 rounded-circle"></i>
+        </div>
+        <div class="col-md-8">
+          <h2>Vikash Kumar</h2>
+          <p>Email: <strong>vikash@example.com</strong></p>
+          <p>Phone: <strong>+91-9876543210</strong></p>
+          <!-- Edit Profile Button -->
+          <a href="edit_profile.html" class="btn btn-outline-primary mt-3">
+            <i class="fas fa-edit"></i> Edit Profile
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interested Properties Section -->
+    <section class="my-interested-properties container mt-5">
+      <h1 class="text-center">My Interested Properties</h1>
+      <!-- Property Card -->
+      <div class="property-card property-id-1 row mb-4">
+        <div class="image-container col-md-4">
+          <img
+            src="img/properties/1/1d4f0757fdb86d5f.jpg"
+            alt="Property Image 1"
+            class="img-fluid rounded-start"
+          />
+        </div>
+        <div class="content-container col-md-8 d-flex flex-column justify-content-center">
+          <h2>Spacious 2 BHK PG in Delhi</h2>
+          <p>
+            Located in a prime area with modern amenities and 24x7 security.
+          </p>
+          <a href="property_details.html" class="btn btn-primary w-50">View Details</a>
+        </div>
+      </div>
+      <!-- Another Property Card -->
+      <div class="property-card property-id-2 row">
+        <div class="image-container col-md-4">
+          <img
+            src="img/properties/2/sample-property.jpg"
+            alt="Property Image 2"
+            class="img-fluid rounded-start"
+          />
+        </div>
+        <div class="content-container col-md-8 d-flex flex-column justify-content-center">
+          <h2>Luxurious 1 BHK PG in Bangalore</h2>
+          <p>
+            Fully furnished PG with high-speed internet and affordable rent.
+          </p>
+          <a href="property_details.html" class="btn btn-primary w-50">View Details</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+      <div class="container">
+        <div class="row footer-cities justify-content-center mb-3">
+          <div class="col-auto">
+            <a href="property_list.html" class="text-white">PG in Delhi</a>
+          </div>
+          <div class="col-auto">
+            <a href="property_list.html" class="text-white">PG in Mumbai</a>
+          </div>
+          <div class="col-auto">
+            <a href="property_list.html" class="text-white">PG in Bangalore</a>
+          </div>
+          <div class="col-auto">
+            <a href="property_list.html" class="text-white">PG in Hyderabad</a>
+          </div>
+        </div>
+        <div class="text-center">
+          <p class="mb-0 text-white">
+            &copy; 2025 PG Life. All Rights Reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap and Custom JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery.js"></script>
+  </body>
+</html>
