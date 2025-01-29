@@ -1,6 +1,7 @@
 /* Base Styling */
 body {
   font-family: 'Arial', sans-serif;
+  box-sizing: border-box;
   background-color: #f8f9fa;
   color: #333;
   margin: 0;
@@ -47,9 +48,9 @@ p {
 
 /* Breadcrumb */
 .breadcrumb {
-  background-color: #e9ecef;
+  /* background-color: #e9ecef; */
   padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
+  /* border-radius: 0.375rem; */
 }
 
 .breadcrumb-item a {
@@ -72,7 +73,7 @@ p {
 
 .profile-img-container .profile-img {
   font-size: 8rem;
-  background: #007bff;
+  background: #d4d7da;
   color: #fff;
   padding: 1.5rem;
   border-radius: 50%;
@@ -87,13 +88,6 @@ p {
   font-size: 1rem;
   margin: 0.5rem 0;
 }
-
-.my-profile .btn {
-  padding: 0.6rem 1.2rem;
-  font-size: 0.9rem;
-  font-weight: bold;
-}
-
 /* Interested Properties Section */
 .my-interested-properties {
   padding: 2rem 0;

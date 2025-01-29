@@ -13,7 +13,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
       rel="stylesheet"/>
     <link href="css/common.css" rel="stylesheet" />
-    <link href="css/home.css" rel="stylesheet" />
+    <link href="css/index.css" rel="stylesheet"/>
   </head>
   <body>
     <!-- Header Section -->
@@ -67,7 +67,7 @@
 
     <!-- Banner Section -->
     <div class="banner-container text-center">
-      <h2 class="text-white pb-3">Happiness per Square Foot</h2>
+      <h2 class="text-black">Happiness per Square Foot</h2>
       <form id="search-form">
         <div class="input-group city-search">
           <input
@@ -77,7 +77,7 @@
             name="city"
             placeholder="Enter Your City to Search for PGs"
           />
-          <button type="submit" class="btn btn-secondary">
+          <button type="submit" class="btn btn-light">
             <i class="fa fa-search"></i>
           </button>
         </div>
@@ -85,7 +85,7 @@
     </div>
 
     <!-- Major Cities Section -->
-    <div class="page-container">
+    <div class=" page-container">
       <h1 class="text-center">Major Cities</h1>
       <div class="row text-center">
         <div class="city-card-container col-md">
@@ -244,28 +244,29 @@
     </div>
 
     <!--FOOTER-->
-    <div class="footer">
-      <div class="page-container footer-container">
-        <div class="footer-cities">
-          <div class="footer-city">
-            <a href="property_list.html">PG in Delhi</a>
+    <footer class="footer mt-5">
+      <div class="container">
+        <div class="row footer-cities justify-content-center mb-3">
+          <div class="col-auto">
+            <a href="property_list.html" class="text-white">PG in Delhi</a>
           </div>
-          <div class="footer-city">
-            <a href="property_list.html">PG in Mumbai</a>
+          <div class="col-auto">
+            <a href="property_list.html" class="text-white">PG in Mumbai</a>
           </div>
-          <div class="footer-city">
-            <a href="property_list.html">PG in Banglore</a>
+          <div class="col-auto">
+            <a href="property_list.html" class="text-white">PG in Bangalore</a>
           </div>
-          <div class="footer-city">
-            <a href="property_list.html">PG in Hyderabad</a>
+          <div class="col-auto">
+            <a href="property_list.html" class="text-white">PG in Hyderabad</a>
           </div>
         </div>
-        <div class="footer-copyright">
-@2025 Copyright PG Life
+        <div class="text-center">
+          <p class="mb-0 text-white">
+            &copy; 2025 PG Life. All Rights Reserved.
+          </p>
         </div>
       </div>
-
-    </div>
+    </footer>
 
     <!-- Bootstrap JS -->
      <script type="text/javascript" src="js/jquery.js"></script>
