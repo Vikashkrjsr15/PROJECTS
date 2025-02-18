@@ -5,12 +5,12 @@ require("../includes/database_connect.php");
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    echo json_encode(["status" => "error", "message" => "Invalid request"]);
+    echo json_encode(["status" => "error", "message" => "Invalid request method"]);
     exit;
 }
 
 // Validate required fields
-$required_fields = ['full_name', 'phone', 'email', 'password', 'college_name', 'gender'];
+$required_fields = ['full_name', 'email', 'password', 'phone', 'college_name', 'gender'];
 foreach ($required_fields as $field) {
     if (!isset($_POST[$field]) || empty(trim($_POST[$field]))) {
         echo json_encode(["status" => "error", "message" => ucfirst($field) . " is required"]);
@@ -18,14 +18,30 @@ foreach ($required_fields as $field) {
     }
 }
 
-$full_name = mysqli_real_escape_string($conn, trim($_POST['full_name']));
-$phone = mysqli_real_escape_string($conn, trim($_POST['phone']));
-$email = mysqli_real_escape_string($conn, trim($_POST['email']));
-$college_name = mysqli_real_escape_string($conn, trim($_POST['college_name']));
-$gender = mysqli_real_escape_string($conn, trim($_POST['gender']));
-$password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Secure password hashing
+// Get the sanitized input values
+$full_name = trim($_POST['full_name']);
+$email = trim($_POST['email']);
+$password = trim($_POST['password']);
+$phone = trim($_POST['phone']);
+$college_name = trim($_POST['college_name']);
+$gender = trim($_POST['gender']);
 
-// Check if email already exists using a prepared statement
+// Validate email format
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo json_encode(["status" => "error", "message" => "Invalid email format"]);
+    exit;
+}
+
+// Validate phone number (10 digits)
+if (!preg_match("/^\d{10}$/", $phone)) {
+    echo json_encode(["status" => "error", "message" => "Invalid phone number"]);
+    exit;
+}
+
+// Secure password hashing
+$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+// Check if email already exists
 $sql = "SELECT id FROM users WHERE email = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "s", $email);
@@ -39,12 +55,12 @@ if (mysqli_stmt_num_rows($stmt) > 0) {
     exit;
 }
 
-mysqli_stmt_close($stmt); // Close statement
+mysqli_stmt_close($stmt);
 
-// Insert new user using a prepared statement
+// Insert new user into database
 $sql = "INSERT INTO users (email, password, full_name, phone, gender, college_name) VALUES (?, ?, ?, ?, ?, ?)";
 $stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param($stmt, "ssssss", $email, $password, $full_name, $phone, $gender, $college_name);
+mysqli_stmt_bind_param($stmt, "ssssss", $email, $hashed_password, $full_name, $phone, $gender, $college_name);
 $result = mysqli_stmt_execute($stmt);
 
 if ($result) {
@@ -53,6 +69,8 @@ if ($result) {
     echo json_encode(["status" => "error", "message" => "Database error: " . mysqli_error($conn)]);
 }
 
-// Close database connection
+// Close the statement and connection
 mysqli_stmt_close($stmt);
 mysqli_close($conn);
+exit;
+?>

@@ -65,7 +65,7 @@
                         <span>I'm a</span>
                         <input type="radio" class="ml-3" id="gender-male" name="gender" value="male" /> Male
                         <input type="radio" class="ml-3" id="gender-female" name="gender" value="female" /> Female
-                        <input type="radio" class="ml-3" id="gender-female" name="gender" value="female" /> Others
+                        <input type="radio" class="ml-3" id="gender-unisex" name="gender" value="unisex" /> Others
                     </div>
 
                     <!-- Submit Button -->

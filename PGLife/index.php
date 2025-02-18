@@ -72,12 +72,30 @@ session_start();
     include "includes/footer.php";
     ?>
 
+     <!-- Registration Message Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-headers">
+                <h5 class="modal-titles" id="messageModalLabel"></h5>
+            </div>
+            <div class="modal-body text-center">
+                <p id="messageText"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="closeModalBtn">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     <!-- Error Modal -->
     <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content ">
                 <div class="modal-header text-white">
-                    <h5 class="modal-title" id="errorModalLabel">Login Failed</h5>
+                    <h5 class="modal-title" id="errorModalLabel"><i class="fas fa-exclamation-circle"></i> Login Failed</h5>
                 </div>
                 <div class="modal-body">
                     <p id="errorMessage"><?php echo isset($_SESSION['error_message']) ? $_SESSION['error_message'] : ''; ?></p>
@@ -93,6 +111,38 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        $(document).ready(function () {
+    $("#signup-form").submit(function (event) {
+        event.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "api/signup_submit.php",
+            data: $(this).serialize(),
+            dataType: "json",
+            success: function (response) {
+                $("#messageModal").modal("show");
+                $("#messageText").text(response.message);
+
+                if (response.status === "error") {
+                    // $(".modal-headers").css("background-color", "#dc3545");
+                    $(".modal-titles").html('<i class="fas fa-exclamation-circle"></i> Registration Failed');
+                } else if (response.status === "success") {
+                    // $(".modal-headers").css("background-color", "#28a745");
+                    $(".modal-titles").html('<i class="fas fa-check-circle"></i> Registration Successful');
+                }
+            }
+        });
+    });
+
+    $("#closeModalBtn").click(function () {
+        $("#messageModal").modal("hide");
+        if ($("#messageModal .modal-titles").text().includes("Registration Successful")) {
+            window.location.href = "index.php";
+        }
+    });
+});
+
+
         function redirectHome() {
             window.location.href = "index.php";
         }
@@ -104,5 +154,6 @@ session_start();
         });
         <?php unset($_SESSION['error_message']); ?>
     </script>
+
 </body>
 </html>

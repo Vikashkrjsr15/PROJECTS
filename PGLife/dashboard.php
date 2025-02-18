@@ -4,60 +4,50 @@ require "includes/database_connect.php";
 
 if (!isset($_SESSION["user_id"])) {
     header("location: index.php");
-    die();
-}
-$user_id = $_SESSION['user_id'];
-
-$sql_1 = "SELECT * FROM users WHERE id = $user_id";
-$result_1 = mysqli_query($conn, $sql_1);
-if (!$result_1) {
-    echo "Something went wrong!";
-    return;
-}
-$user = mysqli_fetch_assoc($result_1);
-if (!$user) {
-    echo "Something went wrong!";
-    return;
+    exit();
 }
 
-$sql_2 = "SELECT * 
-            FROM interested_users_properties iup
-            INNER JOIN properties p ON iup.property_id = p.id
-            WHERE iup.user_id = $user_id";
-$result_2 = mysqli_query($conn, $sql_2);
-if (!$result_2) {
-    echo "Something went wrong!";
-    return;
+$user_id = $_SESSION["user_id"];
+
+// Get user details
+$sql_1 = "SELECT * FROM users WHERE id = ?";
+$stmt = $conn->prepare($sql_1);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result_1 = $stmt->get_result();
+
+if (!$result_1 || $result_1->num_rows == 0) {
+    die("Something went wrong! " . mysqli_error($conn));
 }
-$interested_properties = mysqli_fetch_all($result_2, MYSQLI_ASSOC);
+$user = $result_1->fetch_assoc();
+
+// Get interested properties
+$sql_2 = "SELECT p.* FROM interested_users_properties iup 
+          INNER JOIN properties p ON iup.property_id = p.id
+          WHERE iup.user_id = ?";
+$stmt = $conn->prepare($sql_2);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result_2 = $stmt->get_result();
+$interested_properties = $result_2->fetch_all(MYSQLI_ASSOC);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard | PG Life</title>
-
-    <?php
-    include "includes/head_links.php";
-    ?>
+    <?php include "includes/head_links.php"; ?>
     <link href="css/dashboard.css" rel="stylesheet" />
 </head>
 
 <body>
-    <?php
-    include "includes/header.php";
-    ?>
+    <?php include "includes/header.php"; ?>
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb py-2">
-            <li class="breadcrumb-item">
-                <a href="index.php">Home</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-                Dashboard
-            </li>
+            <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
         </ol>
     </nav>
 
@@ -70,10 +60,10 @@ $interested_properties = mysqli_fetch_all($result_2, MYSQLI_ASSOC);
             <div class="col-md-9">
                 <div class="row no-gutters justify-content-between align-items-end">
                     <div class="profile">
-                        <div class="name"><?= $user['full_name'] ?></div>
-                        <div class="email"><?= $user['email'] ?></div>
-                        <div class="phone"><?= $user['phone'] ?></div>
-                        <div class="college"><?= $user['college_name'] ?></div>
+                        <div class="name"><?= htmlspecialchars($user['full_name']) ?></div>
+                        <div class="email"><?= htmlspecialchars($user['email']) ?></div>
+                        <div class="phone"><?= htmlspecialchars($user['phone']) ?></div>
+                        <div class="college"><?= htmlspecialchars($user['college_name']) ?></div>
                     </div>
                     <div class="edit">
                         <div class="edit-profile">Edit Profile</div>
@@ -83,94 +73,82 @@ $interested_properties = mysqli_fetch_all($result_2, MYSQLI_ASSOC);
         </div>
     </div>
 
-    <?php
-    if (count($interested_properties) > 0) {
-    ?>
+    <?php if (!empty($interested_properties)) { ?>
         <div class="my-interested-properties">
             <div class="page-container">
                 <h1>My Interested Properties</h1>
-                <?php
-                foreach ($interested_properties as $property) {
-                    $property_images = glob("img/properties/".$property['id']."/*");
-                ?>
+                <?php foreach ($interested_properties as $property) { 
+                    $property_images = glob("img/properties/" . $property['id'] . "/*"); ?>
                     <div class="property-card property-id-<?= $property['id'] ?> row">
                         <div class="image-container col-md-4">
-                            <img src="<?= $property_images[0] ?>" />
+                            <img src="<?= htmlspecialchars($property_images[0]) ?>" />
                         </div>
                         <div class="content-container col-md-8">
                             <div class="row no-gutters justify-content-between">
-                                <?php
+                                <?php 
                                 $total_rating = ($property['rating_clean'] + $property['rating_food'] + $property['rating_safety']) / 3;
                                 $total_rating = round($total_rating, 1);
                                 ?>
                                 <div class="star-container" title="<?= $total_rating ?>">
-                                    <?php
-                                    $rating = $total_rating;
-                                    for ($i = 0; $i < 5; $i++) {
-                                        if ($rating >= $i + 0.8) {
-                                    ?>
-                                            <i class="fas fa-star"></i>
-                                        <?php
-                                        } elseif ($rating >= $i + 0.3) {
-                                        ?>
-                                            <i class="fas fa-star-half-alt"></i>
-                                        <?php
+                                    <?php for ($i = 0; $i < 5; $i++) {
+                                        if ($total_rating >= $i + 0.8) {
+                                            echo '<i class="fas fa-star"></i>';
+                                        } elseif ($total_rating >= $i + 0.3) {
+                                            echo '<i class="fas fa-star-half-alt"></i>';
                                         } else {
-                                        ?>
-                                            <i class="far fa-star"></i>
-                                    <?php
+                                            echo '<i class="far fa-star"></i>';
                                         }
-                                    }
-                                    ?>
+                                    } ?>
                                 </div>
                                 <div class="interested-container">
                                     <i class="is-interested-image fas fa-heart" property_id="<?= $property['id'] ?>"></i>
                                 </div>
                             </div>
                             <div class="detail-container">
-                                <div class="property-name"><?= $property['name'] ?></div>
-                                <div class="property-address"><?= $property['address'] ?></div>
-                                <div class="property-gender">
-                                    <?php
-                                    if ($property['gender'] == "male") {
-                                    ?>
-                                        <img src="img/male.png">
-                                    <?php
-                                    } elseif ($property['gender'] == "female") {
-                                    ?>
-                                        <img src="img/female.png">
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <img src="img/unisex.png">
-                                    <?php
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="row no-gutters">
-                                <div class="rent-container col-6">
-                                    <div class="rent">₹ <?= number_format($property['rent']) ?>/-</div>
-                                    <div class="rent-unit">per month</div>
-                                </div>
-                                <div class="button-container col-6">
-                                    <a href="property_detail.php?property_id=<?= $property['id'] ?>" class="btn btn-primary">View</a>
-                                </div>
+                                <div class="property-name"><?= htmlspecialchars($property['name']) ?></div>
+                                <div class="property-address"><?= htmlspecialchars($property['address']) ?></div>
                             </div>
                         </div>
                     </div>
-                <?php
-                }
-                ?>
+                <?php } ?>
             </div>
         </div>
-    <?php
-    }
-    ?>
+    <?php } ?>
 
-    <?php
-    include "includes/footer.php";
-    ?>
+    <?php include "includes/footer.php"; ?>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".interested-container i").click(function () {
+                let heartIcon = $(this);
+                let propertyId = heartIcon.attr("property_id");
+
+                $.ajax({
+                    url: "update_interest.php",
+                    type: "POST",
+                    data: { property_id: propertyId },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.status === "error") {
+                            alert(response.message);
+                            if (response.message === "User not logged in") {
+                                window.location.href = "login.php";
+                            }
+                        } else if (response.status === "added") {
+                            heartIcon.removeClass("far fa-heart").addClass("fas fa-heart");
+                        } else if (response.status === "removed") {
+                            heartIcon.removeClass("fas fa-heart").addClass("far fa-heart");
+                            $(".property-id-" + propertyId).remove();
+                        }
+                    },
+                    error: function (xhr) {
+                        console.log("AJAX Error:", xhr.responseText);
+                        alert("Something went wrong! Check the console.");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
